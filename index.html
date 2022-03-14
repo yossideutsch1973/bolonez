@@ -2,21 +2,31 @@
 <html lang="en">
 <head>
 <title>ACE in Action</title>
-<style type="text/css" media="screen">
-    #editor { 
+<style media="screen">
+    #editor {
         position: absolute;
-        top: 0%;
+        top: 0;
         right: 50%;
-        bottom: 0%;
+        bottom: 30%;
         left: 0;
     }
-    #preview { 
+    #preview {
         position: absolute;
-        top: 0%;
+        top: 0;
         right: 0;
-        bottom: 0%;
+        bottom: 30%;
         left: 50%;
+        text-align: center;
+        //background: darkkhaki;
     }
+    #command {
+        position: absolute;
+        top: 70%;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
 </style>
 </head>
 <body onload="start_editor()">
@@ -25,10 +35,11 @@
     digraph{a -> b -> c}
 </div>
 <div id="preview">
-    <p>Preview</p>
     <svg id="svg"></svg>
 </div>
-    
+<div id="command">
+
+</div>
 <script src="https://pagecdn.io/lib/ace/1.4.14/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="node_modules/viz.js/viz.js"></script>
 <script src="node_modules/viz.js/full.render.js"></script>
@@ -36,9 +47,12 @@
     //import Viz from "viz.js";
 
     function start_editor(){
-        var editor = ace.edit("editor");
+        let editor = ace.edit("editor");
+        let command = ace.edit("command")
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/dot");
+        command.setTheme("ace/theme/monokai");
+        command.session.setMode("ace/mode/dot");
         editor.session.on('change', function(delta) {
             // delta.start, delta.end, delta.lines, delta.action
             preview_update(editor)
@@ -48,7 +62,7 @@
         
     }
 
-    function preview_update(editor, viz){
+    function preview_update(editor){
         var viz = new Viz()
         //document.getElementById("preview").innerHTML = '<p>' + editor.getValue() + '</p>' 
         viz.renderSVGElement(editor.getValue())
